@@ -93,9 +93,11 @@ export class ResourceManager {
     const collectionOrQuery = this.applyQuery(collectionRef, collectionQuery);
     const newDocs = await getDocs(collectionOrQuery);
 
+    const parsedNewDocs: Array<IResourceItem> = [];
     newDocs.forEach((d) =>
-      resource.list.push(parseFireStoreDocument<IResourceItem>(d))
+      parsedNewDocs.push(parseFireStoreDocument<IResourceItem>(d))
     );
+    resource.list = parsedNewDocs;
 
     const count = newDocs.docs.length;
     this.flogger.logDocument(count)();
